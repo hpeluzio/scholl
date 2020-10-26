@@ -19,7 +19,7 @@ class AvaliacoesAPIView(generics.ListCreateAPIView):
   def get_queryset(self):
     if self.kwargs.get('curso_pk'):
       return self.queryset.filter(curso_id=self.kwargs.get('curso_pk'))
-    return self.queryset.all
+    return self.queryset.all()
   
     #http://localhost:8000/api/v1/cursos/1/avaliacoes
 
