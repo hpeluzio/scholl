@@ -62,4 +62,4 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 class AvaliacaoViewSet(viewsets.ModelViewSet):
   queryset = Avaliacao.objects.all()
-  serializar_class = AvaliacaoSerializer
+  serializer_class = AvaliacaoSerializer
