@@ -15,6 +15,7 @@ class Curso(Base):
   class Meta:
     verbose_name = 'Curso'
     verbose_name_plural = 'Cursos'
+    ordering = ['id'] #Ordem crescente. -id seria ordem decrescente
 
   def __str__(self):
     return self.titulo
@@ -31,6 +32,7 @@ class Avaliacao(Base):
     verbose_name = 'Avaliacao'
     verbose_name_plural = 'Avaliacoes'
     unique_together = ['email', 'curso'] #Uma pessoa pode avaliar 1x o curso apenas
+    ordering = ['id'] #Ordem crescente. -id seria ordem decrescente
 
     def __str__(self):
       return f'{self.nome} avaliou o curso {self.curso} com nota {self.avaliacao}'
