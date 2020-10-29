@@ -13,70 +13,77 @@ from .permissions import EhSuperUser
 """
 API V1
 """
+
+
 class CursosAPIView(generics.ListCreateAPIView):
-  queryset = Curso.objects.all()
-  serializer_class = CursoSerializer
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+
 
 class CursoAPIView(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Curso.objects.all()
-  serializer_class = CursoSerializer
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+
 
 class AvaliacoesAPIView(generics.ListCreateAPIView):
-  queryset = Avaliacao.objects.all()
-  serializer_class = AvaliacaoSerializer
+    queryset = Avaliacao.objects.all()
+    serializer_class = AvaliacaoSerializer
 
-  def get_queryset(self):
-    if self.kwargs.get('curso_pk'):
-      return self.queryset.filter(curso_id=self.kwargs.get('curso_pk'))
-    return self.queryset.all()
-  
-    #http://localhost:8000/api/v1/cursos/1/avaliacoes
+    def get_queryset(self):
+        if self.kwargs.get('curso_pk'):
+            return self.queryset.filter(curso_id=self.kwargs.get('curso_pk'))
+        return self.queryset.all()
+
+        # http://localhost:8000/api/v1/cursos/1/avaliacoes
 
 
 class AvaliacaoAPIView(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Avaliacao.objects.all()
-  serializer_class = AvaliacaoSerializer
+    queryset = Avaliacao.objects.all()
+    serializer_class = AvaliacaoSerializer
 
-  def get_object(self):
-    if self.kwargs.get('curso_pk'):
-      return get_object_or_404( self.get_queryset(), 
-                                curso_id=self.kwargs.get('curso_pk'),
-                                pk=self.kwargs.get('avaliacao_pk'))
+    def get_object(self):
+        if self.kwargs.get('curso_pk'):
+            return get_object_or_404(self.get_queryset(),
+                                     curso_id=self.kwargs.get('curso_pk'),
+                                     pk=self.kwargs.get('avaliacao_pk'))
 
-    return get_object_or_404( self.get_queryset(), 
-                              pk=self.kwargs.get('avaliacao_pk'))
+        return get_object_or_404(self.get_queryset(),
+                                 pk=self.kwargs.get('avaliacao_pk'))
 
-    #http://localhost:8000/api/v1/cursos/1/avaliacoes/1/
-  
-  
+        # http://localhost:8000/api/v1/cursos/1/avaliacoes/1/
+
+
 """
 API V2
 """
 
+
 class CursoViewSet(viewsets.ModelViewSet):
-  permission_classes = (
-    EhSuperUser,
-    permissions.DjangoModelPermissions, 
-  )
-  queryset = Curso.objects.all()
-  serializer_class = CursoSerializer
+    permission_classes = (
+        EhSuperUser,
+        permissions.DjangoModelPermissions,
+    )
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
 
-  @action(detail=True, methods=['get'])
-  def avaliacoes(self, request, pk=None):
-    print('self.pagination_class.page_size: ', self.pagination_class.page_size)
-    print('self', dir(self))
-    # self.pagination_class.page_size = self.pagination_class.page_size
-    avaliacoes = Avaliacao.objects.filter(curso_id=pk)
-    page = self.paginate_queryset(avaliacoes)
+    @action(detail=True, methods=['get'])
+    def avaliacoes(self, request, pk=None):
+        print('self.pagination_class.page_size: ',
+              self.pagination_class.page_size)
+        print('self', dir(self))
+        # self.pagination_class.page_size = self.pagination_class.page_size
+        avaliacoes = Avaliacao.objects.filter(curso_id=pk)
+        page = self.paginate_queryset(avaliacoes)
 
-    if page is not None:
-      serializer = AvaliacaoSerializer(page, many=True)
-      return self.get_paginated_response(serializer.data)
+        if page is not None:
+            serializer = AvaliacaoSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-    curso = self.get_object()
-    serializer = AvaliacaoSerializer(curso.avaliacoes.all(), many=True)
-    return Response(serializer.data)
+        curso = self.get_object()
+        serializer = AvaliacaoSerializer(curso.avaliacoes.all(), many=True)
+        return Response(serializer.data)
+
 
 class AvaliacaoViewSet(viewsets.ModelViewSet):
-  queryset = Avaliacao.objects.all()
-  serializer_class = AvaliacaoSerializer
+    queryset = Avaliacao.objects.all()
+    serializer_class = AvaliacaoSerializer

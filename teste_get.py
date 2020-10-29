@@ -10,7 +10,7 @@ resultado = requests.get(url=url_base_cursos, headers=headers)
 # print(resultado.json())
 
 
-#Testando se o endpoint está correto
+# Testando se o endpoint está correto
 assert resultado.status_code == 200
 
 # Testando a quantidade de registros

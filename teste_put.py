@@ -6,8 +6,8 @@ url_base_avaliacoes = 'http://localhost:8000/api/v2/avaliacoes/'
 
 
 curso_atualizado = {
-  "titulo": "curso_atuzalizado_Teste",
-  "url": "http://www.googasasaasle.com.br"
+    "titulo": "curso_atuzalizado_Teste",
+    "url": "http://www.googasasaasle.com.br"
 }
 
 
@@ -15,7 +15,8 @@ curso_atualizado = {
 curso = requests.get(url=f'{url_base_cursos}4/', headers=headers)
 print(curso.json())
 #
-resultado = requests.put(url=f'{url_base_cursos}4/', headers=headers, data=curso_atualizado)
-#print(resultado.status_code)
+resultado = requests.put(
+    url=f'{url_base_cursos}4/', headers=headers, data=curso_atualizado)
+# print(resultado.status_code)
 assert resultado.status_code == 200
 # print(resultado.json())

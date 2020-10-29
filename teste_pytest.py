@@ -1,71 +1,69 @@
 import requests
 
-class TestCursos: #IMPORTANTE COMECAR CLASSE COM 'Test'
 
-  headers = {'Authorization': 'Token 11beaa3b865e223f79d1de5c7764194fd12c1e83'}
-  url_base_cursos = 'http://localhost:8000/api/v2/cursos/'
-  
-  curso_id_criado = 11
+class TestCursos:  # IMPORTANTE COMECAR CLASSE COM 'Test'
 
-  novo = {
-    "titulo": "curso12345",
-    "url": "https://www.curso12345.aa.com"
-  }
+    headers = {'Authorization': 'Token 11beaa3b865e223f79d1de5c7764194fd12c1e83'}
+    url_base_cursos = 'http://localhost:8000/api/v2/cursos/'
 
-  atualizado = {
-    "titulo": "curso12345",
-    "url": "http://www.curso12345.com.br"
-  }
+    curso_id_criado = 11
 
+    novo = {
+        "titulo": "curso12345678",
+        "url": "https://www.curso12345678.aa.com"
+    }
 
-  #
-  def test_get_cursos(self): #IMPORTANTE COMECAR METODOS COM 'test'
-    print('HUEHUEHUEHUEHEHU')
-    print('HUEHUEHUEHUEHEHU')
-    print('HUEHUEHUEHUEHEHU')
-    print('HUEHUEHUEHUEHEHU')
-    cursos = requests.get(url=self.url_base_cursos, headers=self.headers)
+    atualizado = {
+        "titulo": "curso12345678",
+        "url": "http://www.curso12345678.com.br"
+    }
 
-    print('curso criado: ', self.curso_id_criado)
+    #
+    def test_get_cursos(self):  # IMPORTANTE COMECAR METODOS COM 'test'
+        cursos = requests.get(url=self.url_base_cursos, headers=self.headers)
 
-    assert cursos.status_code == 200
-    self.curso_id_criado =2
+        print('curso criado: ', TestCursos.curso_id_criado)
 
-  #
-  def test_get_curso(self):
-    curso = requests.get(url=f'{self.url_base_cursos}1/', headers=self.headers)
+        assert cursos.status_code == 200
 
-    print('curso criado: ', self.curso_id_criado)
+    #
 
-    assert curso.status_code == 200
+    def test_get_curso(self):
+        curso = requests.get(
+            url=f'{self.url_base_cursos}1/', headers=self.headers)
 
+        print('curso criado: ', TestCursos.curso_id_criado)
 
+        assert curso.status_code == 200
 
-  #
-  def test_post_curso(self):
+    #
 
-    resposta = requests.post(url=self.url_base_cursos, headers=self.headers, data=self.novo)
+    def test_post_curso(self):
 
-    assert resposta.status_code == 201
-    assert resposta.json()['titulo'] == self.novo['titulo']
-    
-    if resposta.status_code == 201:
-      self.curso_id_criado = resposta.json()['id']
+        resposta = requests.post(
+            url=self.url_base_cursos, headers=self.headers, data=self.novo)
 
+        assert resposta.status_code == 201
+        assert resposta.json()['titulo'] == self.novo['titulo']
 
-  #
-  def test_put_curso(self):
+        if resposta.status_code == 201:
+            TestCursos.curso_id_criado = resposta.json()['id']
 
-    # print(f'{self.url_base_cursos}{self.curso_id_criado}/')
-    resposta = requests.put(url=f'{self.url_base_cursos}{self.curso_id_criado}/', headers=self.headers, data=self.atualizado)
+    #
 
-    assert resposta.status_code == 200
-    assert resposta.json()['titulo'] == atualizado['titulo']
+    def test_put_curso(self):
 
+        # print(f'{self.url_base_cursos}{TestCursos.curso_id_criado}/')
+        resposta = requests.put(
+            url=f'{self.url_base_cursos}{TestCursos.curso_id_criado}/', headers=self.headers, data=self.atualizado)
 
+        assert resposta.status_code == 200
+        assert resposta.json()['titulo'] == self.atualizado['titulo']
 
-  #
-  def test_delete_curso(self):
-    resposta = requests.delete(url=f'{self.url_base_cursos}{self.curso_id_criado}/', headers=self.headers)
+    #
 
-    assert resposta.status_code == 204 and len(resposta.text) == 0
+    def test_delete_curso(self):
+        resposta = requests.delete(
+            url=f'{self.url_base_cursos}{TestCursos.curso_id_criado}/', headers=self.headers)
+
+        assert resposta.status_code == 204 and len(resposta.text) == 0

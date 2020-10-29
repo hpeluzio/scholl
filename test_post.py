@@ -6,11 +6,12 @@ url_base_avaliacoes = 'http://localhost:8000/api/v2/avaliacoes/'
 
 
 novo_curso = {
-  "titulo": "testesss",
-  "url": "http://www.googasasle.com.br"
+    "titulo": "testesss",
+    "url": "http://www.googasasle.com.br"
 }
 
-resultado = requests.post(url=url_base_cursos, headers=headers, data=novo_curso)
+resultado = requests.post(
+    url=url_base_cursos, headers=headers, data=novo_curso)
 print(resultado.json())
 
 # Testando o codigo de status HTTP 201
